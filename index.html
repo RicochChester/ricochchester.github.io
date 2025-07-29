@@ -1,38 +1,321 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>りこち</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      text-align: center;
-      margin: 50px;
-      background-color: #f8f8f8;
-      color: #333;
-    }
-    h1 {
-      font-size: 2em;
-      margin-bottom: 0.2em;
-    }
-    p {
-      margin: 0.2em;
-    }
-    a {
-      color: #007acc;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INVASION KIT - Ricoch ver.</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+
+    <style>
+        /* Custom styles */
+        :root {
+            --bg-color: #0d0d1a;
+            --primary-neon: #00f6ff; /* Cyan */
+            --secondary-neon: #ff00ff; /* Fuchsia */
+            --accent-neon: #39ff14; /* Green */
+            --text-color: #e0e0e0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Rajdhani', 'Noto Sans JP', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .neon-text-primary { color: var(--primary-neon); text-shadow: 0 0 5px var(--primary-neon), 0 0 10px var(--primary-neon), 0 0 20px var(--primary-neon); }
+        .neon-text-secondary { color: var(--secondary-neon); text-shadow: 0 0 5px var(--secondary-neon), 0 0 10px var(--secondary-neon), 0 0 20px var(--secondary-neon); }
+        .neon-text-accent { color: var(--accent-neon); text-shadow: 0 0 5px var(--accent-neon), 0 0 10px var(--accent-neon), 0 0 15px var(--accent-neon); }
+
+        .section-title { font-size: 2.5rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+        .section-subtitle { font-size: 1.25rem; font-weight: 500; letter-spacing: 0.05em; }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: var(--primary-neon); border-radius: 4px; box-shadow: 0 0 5px var(--primary-neon); }
+        ::-webkit-scrollbar-thumb:hover { background: var(--secondary-neon); }
+        
+        .card { background: rgba(20, 20, 40, 0.5); border: 1px solid rgba(0, 246, 255, 0.2); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); transition: all 0.3s ease; }
+        .card:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 0 20px var(--primary-neon); border-color: var(--primary-neon); }
+
+        .social-btn { display: flex; align-items: center; justify-content: center; padding: 0.75rem; border-radius: 0.5rem; font-size: 1.1rem; font-weight: bold; transition: all 0.3s ease; transform-origin: center; border: 2px solid transparent; }
+        .social-btn:hover { transform: scale(1.05); box-shadow: 0 0 15px currentColor; }
+        .social-btn i {
+            width: 28px;
+            height: 28px;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .social-btn span { flex-shrink: 0; }
+        .btn-x { color: #fff; background-color: #1DA1F2; border-color: #1DA1F2; }
+        .btn-instagram { color: #fff; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); border: none; }
+        .btn-note { color: #fff; background-color: #41c9b4; border-color: #41c9b4; }
+        .btn-messenger { color: #fff; background-color: #0084ff; border-color: #0084ff; }
+
+        #animation-layer { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 10; overflow: hidden; }
+        .anim-char { position: absolute; font-size: 4rem; opacity: 0; will-change: transform, opacity; }
+    </style>
 </head>
-<body>
-  <h1>りこち</h1>
-  <p>テストページ</p>
-  <p><a href="https://twitter.com/" target="_blank">X</a></p>
-  <p><a href="https://www.instagram.com/" target="_blank">Instagram</a></p>
-  <p><a href="https://www.messenger.com/" target="_blank">Messenger</a></p>
+<body class="antialiased">
+
+    <div id="animation-layer"></div>
+
+    <div id="main-content" class="opacity-0">
+        <header class="w-full p-4 fixed top-0 left-0 z-40 bg-gradient-to-b from-black/80 to-transparent">
+             <div class="container mx-auto flex justify-between items-center">
+                 <h1 class="text-2xl font-bold neon-text-primary uppercase">Invaders Inc.</h1>
+                 <p class="text-lg neon-text-secondary">Ricoch ver.</p>
+             </div>
+        </header>
+
+        <main class="container mx-auto px-4 pt-24 relative z-20">
+
+            <!-- SECTION 00: HERO / FIRST CONTACT -->
+            <section id="hero" class="min-h-screen flex flex-col items-center justify-center text-center">
+                <div class="animate-item">
+                    <h2 class="text-4xl md:text-5xl font-bold neon-text-primary">まずはファーストコンタクト！🚀</h2>
+                    <p class="mt-4 mb-8 text-xl md:text-2xl neon-text-accent">質問できるVibe Coding Web名刺</p>
+                </div>
+                
+                <div class="card p-8 rounded-lg animate-item w-full max-w-md">
+                    <img src="https://pbs.twimg.com/profile_images/1656945540184313858/68mAuetW_400x400.jpg" alt="りこちアイコン" class="rounded-full w-32 h-32 mx-auto mb-4 border-4 border-secondary-neon shadow-lg shadow-secondary-neon/50">
+                    <h3 class="text-3xl font-bold neon-text-secondary">COO: りこち ☕️</h3>
+                    <p class="text-lg opacity-80 mb-6">バーチャルよろずお手伝い</p>
+                    <div class="space-y-4">
+                        <a href="https://x.com/RicochChester" target="_blank" class="social-btn btn-x"><i class="fa-brands fa-x-twitter"></i><span>X / Twitter</span></a>
+                        <a href="https://www.instagram.com/ricoch_chester/" target="_blank" class="social-btn btn-instagram"><i class="fa-brands fa-instagram"></i><span>Instagram</span></a>
+                        <a href="https://note.com/ricoch" target="_blank" class="social-btn btn-note"><i class="fas fa-book-open"></i><span>note</span></a>
+                        <a href="https://m.me/ricoch.41557" target="_blank" class="social-btn btn-messenger"><i class="fa-brands fa-facebook-messenger"></i><span>Messenger</span></a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 01: ABOUT INVADERS -->
+            <section id="about" class="py-20 text-center">
+                <h2 class="section-title neon-text-primary animate-item">ABOUT INVADERS INC.</h2>
+                <p class="mt-4 mb-8 text-xl animate-item">我々は「面白さ」で世界を作り変える、宇宙人たちの会社だ。</p>
+                <div class="max-w-3xl mx-auto animate-item">
+                    <p class="text-2xl font-bold neon-text-secondary">MISSION: 「あなたとともに未来の居場所を作る」</p>
+                    <p class="mt-4 text-lg">プラットフォームがメタバースなんじゃない。<br>ヒトと、祭りと、居場所こそが、メタバースだ！</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-5xl mx-auto mt-12">
+                    <div id="kagekin-card" class="card p-6 rounded-lg animate-item text-center">
+                        <img src="https://pbs.twimg.com/profile_images/1905651963158835200/M06q-esr_400x400.jpg" alt="カゲキンアイコン" class="rounded-full w-20 h-20 mx-auto mb-4 border-2 border-gray-500">
+                        <h3 class="text-xl font-bold">CEO: カゲキン 🐱</h3>
+                    </div>
+                    <div id="ushikun-card" class="card p-6 rounded-lg animate-item text-center">
+                        <img src="https://pbs.twimg.com/profile_images/1759177303157051392/SZAe49Vg_400x400.jpg" alt="うしくんアイコン" class="rounded-full w-20 h-20 mx-auto mb-4 border-2 border-gray-500">
+                        <h3 class="text-xl font-bold">CFO: うしくん 🐮</h3>
+                    </div>
+                    <div id="rikochi-card" class="card p-6 rounded-lg animate-item text-center border-secondary-neon shadow-lg shadow-secondary-neon/50">
+                        <img src="https://pbs.twimg.com/profile_images/1656945540184313858/68mAuetW_400x400.jpg" alt="りこちアイコン" class="rounded-full w-20 h-20 mx-auto mb-4 border-2 border-secondary-neon">
+                        <h3 class="text-xl font-bold neon-text-secondary">COO: りこち ☕️</h3>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 02: SERVICES -->
+            <section id="services" class="py-20">
+                <h2 class="section-title text-center neon-text-primary animate-item">OUR SERVICES</h2>
+                <p class="mt-4 mb-12 text-center text-xl animate-item">我々が提供する3つの侵略事業</p>
+                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="card p-6 rounded-lg text-center animate-item">
+                        <div class="text-5xl mb-4 neon-text-secondary">👾</div>
+                        <h3 class="text-2xl font-bold">ソーシャルノバ</h3>
+                        <p class="mt-2 opacity-80">メタバースイベント & コミュニティ事業。人と祭りの中心地。</p>
+                        <div class="text-left mt-4 p-4 bg-black/30 rounded-lg">
+                            <h4 class="font-bold text-accent-neon">For Business Partners:</h4>
+                            <p class="text-sm mt-1">ファンコミュニティの構築、話題性のあるプロモーションイベント、オンラインでの新たな顧客接点の創出をサポートします。</p>
+                        </div>
+                    </div>
+                    <div class="card p-6 rounded-lg text-center animate-item">
+                        <div class="text-5xl mb-4 neon-text-secondary">🤖</div>
+                        <h3 class="text-2xl font-bold">デジタルキャスティング</h3>
+                        <p class="mt-2 opacity-80">バーチャルビーイング事業。未来のタレントを創造・派遣する。</p>
+                        <div class="text-left mt-4 p-4 bg-black/30 rounded-lg">
+                            <h4 class="font-bold text-accent-neon">For Business Partners:</h4>
+                            <p class="text-sm mt-1">貴社の顔となるオリジナルバーチャルタレントのプロデュースや、イベントを盛り上げるメタバース人材のキャスティングを行います。</p>
+                        </div>
+                    </div>
+                    <div class="card p-6 rounded-lg text-center animate-item">
+                        <div class="text-5xl mb-4 neon-text-secondary">🎬</div>
+                        <h3 class="text-2xl font-bold">インベーダーズスタジオ</h3>
+                        <p class="mt-2 opacity-80">物語、ゲーム、体験型イベントを創る。</p>
+                        <div class="text-left mt-4 p-4 bg-black/30 rounded-lg">
+                            <h4 class="font-bold text-accent-neon">For Business Partners:</h4>
+                            <p class="text-sm mt-1">記憶に残るブランド体験を提供し、貴社のメッセージを世界に届けます。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 03: EVIDENCE -->
+            <section id="evidence" class="py-20">
+                <h2 class="section-title text-center neon-text-primary animate-item">EVIDENCE</h2>
+                <p class="mt-4 mb-12 text-center text-xl animate-item">侵略の証拠</p>
+                <div class="max-w-4xl mx-auto space-y-8">
+                    <div class="card flex flex-col md:flex-row items-center p-4 rounded-lg animate-item">
+                        <img src="https://placehold.co/150x100/0d0d1a/00f6ff?text=TV_ASAHI_LOGO" alt="テレビ朝日ロゴ" class="w-32 h-auto rounded-lg mb-4 md:mb-0 md:mr-6">
+                        <div class="w-full">
+                            <h3 class="text-xl font-bold">テレビ朝日『メタメタ大作戦』『しくじり先生』</h3>
+                            <p class="opacity-80">運営サポート & コミュニケーション活性化施策を担当</p>
+                        </div>
+                    </div>
+                    <div class="card flex flex-col md:flex-row items-center p-4 rounded-lg animate-item">
+                        <img src="https://placehold.co/150x100/0d0d1a/ff00ff?text=META_COMI_LOGO" alt="メタコミロゴ" class="w-32 h-auto rounded-lg mb-4 md:mb-0 md:mr-6">
+                        <div class="w-full">
+                            <h3 class="text-xl font-bold">自社主催 展示即売会『メタコミ』</h3>
+                            <p class="opacity-80">延べ4,035人以上を動員。新たな文化を創出。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-center py-8 opacity-50 relative z-20">
+            <p>&copy; 2025 Invaders Inc. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script type="module">
+        // --- GSAP Animations ---
+        function setupScrollAnimations() {
+            gsap.registerPlugin(ScrollTrigger);
+            gsap.utils.toArray('.animate-item').forEach(item => {
+                gsap.fromTo(item, 
+                    { opacity: 0, y: 50 }, 
+                    { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+                      scrollTrigger: { trigger: item, start: 'top 85%', toggleActions: 'play none none none' }
+                    }
+                );
+            });
+        }
+
+        // --- Page Load ---
+        function handlePageLoad() {
+            const mainContent = document.getElementById('main-content');
+            window.addEventListener('load', () => {
+                gsap.to(mainContent, { opacity: 1, duration: 0.5 });
+                setupScrollAnimations();
+                startZanyAnimations();
+            });
+        }
+
+        // --- Zany Background Animations ---
+        function startZanyAnimations() {
+            const layer = document.getElementById('animation-layer');
+            const ushikunCard = document.getElementById('ushikun-card');
+            const rikochiCard = document.getElementById('rikochi-card');
+            const kagekinCard = document.getElementById('kagekin-card');
+
+            function createAnimChar(content, parent, classes = '') {
+                const el = document.createElement('div');
+                el.className = 'anim-char ' + classes;
+                el.innerHTML = content;
+                parent.appendChild(el);
+                return el;
+            }
+            
+            // NEW: UFO flying horizontally
+            function horizontalUfoAnimation() {
+                const ufo = createAnimChar('🛸', layer, 'text-5xl');
+                const startY = Math.random() * window.innerHeight * 0.4; // Fly in the top 40% of the screen
+                const startX = -100;
+                const endX = window.innerWidth + 100;
+
+                gsap.set(ufo, { x: startX, y: startY, opacity: 1 });
+                gsap.to(ufo, { 
+                    x: endX, 
+                    duration: 20 + Math.random() * 15, // Slow speed (20-35 seconds)
+                    ease: 'none', 
+                    onComplete: () => ufo.remove() 
+                });
+            }
+
+            function ufoAbductionAnimation() {
+                if (!ushikunCard) return;
+                const ufo = createAnimChar('🛸', layer);
+                // ビームの見た目を調整
+                const beam = createAnimChar('', layer, 'w-12 h-0');
+                beam.style.background = 'linear-gradient(to bottom, rgba(0, 246, 255, 0.6), transparent)';
+                beam.style.transformOrigin = 'top center';
+                
+                const rect = ushikunCard.getBoundingClientRect();
+                const startX = -100;
+                const targetX = rect.left + rect.width / 2;
+                const targetY = rect.top;
+
+                const tl = gsap.timeline({ onComplete: () => { ufo.remove(); beam.remove(); } });
+                tl.set(ufo, { x: startX, y: targetY - 150, opacity: 1 })
+                  .to(ufo, { x: targetX, duration: 3, ease: 'power1.inOut' })
+                  .set(beam, { x: targetX - 24 /* beam width/2 */, y: targetY - 120, opacity: 0.7 })
+                  .to(beam, { height: 120, duration: 0.5 })
+                  .to(ushikunCard, { y: -20, opacity: 0, duration: 0.5, delay: 0.2 })
+                  .to(beam, { opacity: 0, duration: 0.3 })
+                  .to(ufo, { y: -200, x: window.innerWidth + 100, duration: 3, ease: 'power1.in' })
+                  .set(ushikunCard, { y: 0, opacity: 1 });
+            }
+            
+            function rikochiAnimation() {
+                if (!rikochiCard) return;
+                const rect = rikochiCard.getBoundingClientRect();
+                const codeChars = ['<', '>', '/', '{', '}', ';', '()', '=>', 'const', 'let', 'function'];
+                for (let i = 0; i < 15; i++) {
+                    const char = createAnimChar(codeChars[(Math.random() * codeChars.length)|0], layer, 'text-accent-neon text-sm md:text-lg');
+                    gsap.fromTo(char, 
+                        { x: rect.left + Math.random() * rect.width, y: rect.top + Math.random() * rect.height, opacity: 1, scale: 0.5 + Math.random() * 0.7 },
+                        { y: '-=150', opacity: 0, scale: 1, duration: 2 + Math.random() * 2, delay: Math.random() * 2, onComplete: () => char.remove() }
+                    );
+                }
+            }
+
+            function kagekinAnimation() {
+                // kagekin-cardを基準にするように修正
+                if (!kagekinCard) return;
+                const rect = kagekinCard.getBoundingClientRect();
+
+                const cat = createAnimChar('🐱', layer, 'text-secondary-neon text-5xl');
+                const tube = createAnimChar('🧪', layer, 'text-accent-neon text-3xl');
+                const smoke = createAnimChar('💨', layer, 'text-gray-400 text-4xl');
+                
+                // カードの中央からアニメーションが開始するように座標を計算
+                const startX = rect.left + rect.width / 2;
+                const startY = rect.top + rect.height / 2;
+
+                const tl = gsap.timeline({ onComplete: () => { cat.remove(); tube.remove(); smoke.remove(); }});
+                tl.set([cat, tube, smoke], {x: startX, y: startY, opacity: 1, xPercent: -50, yPercent: -50}) // 中央に配置
+                  .to(tube, { x: '+=20', rotation: 30, duration: 0.2, repeat: 5, yoyo: true, ease: 'power1.inOut' })
+                  .to(smoke, { scale: 2, opacity: 0, duration: 0.8 }, '-=0.5')
+                  .to([cat, tube], { opacity: 0, duration: 0.5 }, '+=0.2');
+            }
+
+            // Set intervals for all animations
+            setInterval(ufoAbductionAnimation, 18000 + Math.random() * 7000);
+            setInterval(rikochiAnimation, 9000 + Math.random() * 4000);
+            setInterval(kagekinAnimation, 12000 + Math.random() * 5000);
+            setInterval(horizontalUfoAnimation, 25000 + Math.random() * 10000); // Add new animation interval
+
+            // Trigger some animations on start
+            setTimeout(rikochiAnimation, 5000);
+            setTimeout(horizontalUfoAnimation, 8000); // Trigger first horizontal UFO after 8s
+        }
+
+        // --- Initialize everything ---
+        handlePageLoad();
+
+    </script>
 </body>
 </html>
